@@ -1,0 +1,21 @@
+module.exports = {
+    name: "leave",
+    aliases: ["disconnect", "dc", "stop"],
+    $if: "old",
+    code: `
+$cooldown[3s;]
+$if[$hasPlayer==true&&$getGuildVar[247]==false]
+$leaveVC
+$else
+$if[$playerStatus==playing]
+$stopTrack
+$endif
+$description[24/7 mode is active, I can't exit the voice channel!]
+$color[Red]
+$endif
+$onlyIf[$voiceId==$voiceId[$clientId];{newEmbed:{description:You are not in the same voice channel!}}{deleteIn:5s}{suppress}]
+$onlyIf[$voiceId!=;{newEmbed:{description:You are not in a voice channel!}}{deleteIn:5s}{suppress}]
+$onlyIf[$hasPlayer==true;{newEmbed:{description:There are no active players on this server!}}{deleteIn:5s}{suppress}]
+$suppressErrors
+`
+};
