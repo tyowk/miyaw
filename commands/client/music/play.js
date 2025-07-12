@@ -2,6 +2,7 @@ module.exports = {
     name: "play",
     $if: "old",
     code: `
+$reply[$messageId;false]
 $cooldown[3s;]
 $description[Added to Queue $songInfo[title;$queueLength]]
 $playTrack[$message;youtube]

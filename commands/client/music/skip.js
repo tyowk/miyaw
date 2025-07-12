@@ -3,6 +3,7 @@ module.exports = {
     aliases: "sk",
     $if: "old",
     code: `
+$reply[$messageId;false]
 $cooldown[3s;]
 $if[$hasPlayer==true&&$playerStatus==playing]
 $description[Skipped to the next track]

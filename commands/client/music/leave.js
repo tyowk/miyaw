@@ -3,6 +3,7 @@ module.exports = {
     aliases: ["disconnect", "dc", "stop"],
     $if: "old",
     code: `
+$reply[$messageId;false]
 $cooldown[3s;]
 $if[$hasPlayer==true&&$getGuildVar[247]==false]
 $leaveVC

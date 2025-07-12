@@ -2,6 +2,7 @@ module.exports = {
     name: "resume",
     $if: "old",
     code: `
+$reply[$messageId;false]
 $cooldown[3s;]
 $if[$playerStatus==paused]
 $description[Resumed the player]

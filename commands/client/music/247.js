@@ -3,6 +3,7 @@ module.exports = {
     aliases: "24/7",
     $if: "old",
     code: `
+$reply[$messageId;false]
 $if[$getGuildVar[247]==false]
 $setGuildVar[247;true]
 $description[24/7 mode is activated, I will not exit the voice channel!]
