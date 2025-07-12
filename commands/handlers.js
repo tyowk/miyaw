@@ -10,6 +10,14 @@ module.exports = (client) => {
         },
         array: [1, 2, 3, 4]
     });
+
+    client.status({
+        name: "*help  |  npm install aoi.js",
+        type: "Custom",
+        time: 20,
+        status: "idle"
+    });
+
     client.functionManager.createFunction({
         name: "$cooldown",
         type: "djs",
@@ -35,7 +43,6 @@ module.exports = (client) => {
                 await d.aoiError.makeMessageError(d.client, d.channel, error.data ?? error, error?.options, d);
             } else {
                 cd.set(key, Date.now() + time);
-
                 setTimeout(() => cd.delete(key), time);
             }
 
