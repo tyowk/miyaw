@@ -6,7 +6,7 @@ $isInteraction
 $reply[$messageId;false]
 $thumbnail[$userAvatar[$clientId]]
 $addField[Other Commands;\`\`\`
-eval, exec, djseval, ping
+eval, exec, djseval, git, reload, ping
 \`\`\`]
 $addField[Playground;\`\`\`
 Coming soon!
