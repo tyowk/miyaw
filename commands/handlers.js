@@ -2,6 +2,7 @@ const { Routes } = require("discord.js");
 
 module.exports = (client) => {
     const cd = new Map();
+    require("./functions")(client);
     client.on("interactionCreate", async (i) => await require("./interaction")(i, client));
 
     client.variables({

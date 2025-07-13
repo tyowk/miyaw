@@ -3,7 +3,8 @@
         "aoi.js": "^6.10.4-dev.0554b80.1752237534",
         "aoijs.lavalink": "^4.11.0",
         "aoijs.mysql": "^4.10.0",
-        "dotenv": "^17.2.0"
+        "dotenv": "^17.2.0",
+        "fuse.js": "^7.1.0"
     },
     "devDependencies": {
         "prettier": "^3.6.2"
