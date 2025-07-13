@@ -2,7 +2,9 @@ module.exports = {
     name: "247",
     aliases: "24/7",
     $if: "old",
+    defer: true,
     code: `
+$isInteraction
 $reply[$messageId;false]
 $if[$getGuildVar[247]==false]
 $setGuildVar[247;true]

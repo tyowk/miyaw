@@ -8,6 +8,7 @@ const client = new AoiClient({
     prefix: "*",
     intents: ["MessageContent", "Guilds", "GuildMessages", "GuildVoiceStates"],
     events: ["onMessage", "onInteractionCreate"],
+    register: true,
     disableAoiDB: true
 });
 
