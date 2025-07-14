@@ -9,6 +9,7 @@ Database: $databasePingms
 $if[$hasPlayer==true;Player: $playerPingms]
 
 Uptime: $uptime
+Lavalink: $parseDate[$parseTime[$nodeInfo[node;uptime]];time]
 $cooldown[3s;{newEmbed:{description:Oops... Try again in %time%}}{deleteIn:5s}{suppress}]
 $suppressErrors
 `

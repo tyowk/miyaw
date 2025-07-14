@@ -64,17 +64,17 @@ module.exports = (client) => {
                     description:
                         data.example && data.example !== ""
                             ? data.example?.length > 4000
-                                ? "The example for this function is too big, better to look at the documentation website!"
+                                ? "The example for this function is too big, better to look at the documentation website!\n" + data.documentation
                                 : data.example
                             : "There is no example for this function!",
                     footer: {
-                        text: (data.package || "aoi.js") + "  |  " + (message.author.displayName || message.author.username),
+                        text: (data.type || "Aoi.Js") + "  |  " + (message.author.displayName || message.author.username),
                         icon_url: message.author.displayAvatarURL()
                     },
                     fields: [
                         {
-                            name: "❓ Function Information",
-                            value: `${data.description || ""}\n\n\`\`\`sh\n${data.usage.replaceAll("`", "")}\`\`\``
+                            name: "Information",
+                            value: `${data.description || ""}${"\n" + (data.tip || "")}\n\n\`\`\`sh\n${data.usage.replaceAll("`", "")}\`\`\``
                         }
                     ]
                 }
@@ -97,7 +97,7 @@ module.exports = (client) => {
                             url: data.documentation,
                             disabled: false
                         },
-                        data.table?.length > 0
+                        data.parameters?.length > 0
                             ? {
                                   type: 2,
                                   label: "Parameters",
