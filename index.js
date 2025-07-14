@@ -9,7 +9,12 @@ const client = new AoiClient({
     intents: ["MessageContent", "Guilds", "GuildMessages", "GuildVoiceStates"],
     events: ["onMessage", "onInteractionCreate"],
     register: true,
-    disableAoiDB: true
+    disableAoiDB: true,
+    respondOnEdit: {
+        commands: true,
+        time: 60_000,
+        nonPrefixed: true
+    }
 });
 
 new Database(client, {
