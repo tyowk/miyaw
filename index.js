@@ -7,13 +7,13 @@ const client = new AoiClient({
     token: process.env.TOKEN,
     prefix: "*",
     intents: ["MessageContent", "Guilds", "GuildMessages", "GuildVoiceStates"],
-    events: ["onMessage", "onInteractionCreate"],
+    events: ["onMessage", "onInteractionCreate", "onMessageUpdate"],
     register: true,
     disableAoiDB: true,
     respondOnEdit: {
         commands: true,
         time: 60_000,
-        nonPrefixed: true
+        nonPrefixed: false
     }
 });
 
