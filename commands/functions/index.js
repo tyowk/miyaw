@@ -187,7 +187,7 @@ module.exports = (client) => {
             const params = data.parameters.map((p, i) => {
                 return {
                     name: `${i + 1}. **${p.field}${p.required ? "*" : p.field.endsWith("?") ? "" : "?"}**`,
-                    value: `* Type: ${p.type || "unknown"}\n> ${p.description || "No description for this parameter"}`
+                    value: `* **Type: ${p.type || "unknown"}**\n\n\n> ${p.description?.replace(/\n/gi, () => "\n> ") || "No description for this parameter"}`
                 };
             });
 
