@@ -185,7 +185,10 @@ module.exports = (client) => {
             const data = func(funcName);
             if (!data || data.parameters?.length === 0) return;
             const params = data.parameters.map((p, i) => {
-                return { name: `${i + 1}. **${p.field}${p.required ? "*" : p.field.endsWith("?") ? "" : "?"}**   (${p.type})`, value: p.description || "No description for this parameter" };
+                return {
+                    name: `${i + 1}. **${p.field}${p.required ? "*" : p.field.endsWith("?") ? "" : "?"}**`,
+                    value: `* Type: ${p.type || "unknown"}\n> ${p.description || "No description for this parameter"}`
+                };
             });
 
             return await i.reply({
