@@ -180,7 +180,7 @@ module.exports = (client) => {
 
     client.on("interactionCreate", async (i) => {
         try {
-            const [customId, funcName] = i.customId.split("_");
+            const [customId, funcName] = i.customId?.split("_") || [];
             if (customId !== "parameters") return;
             const data = func(funcName);
             if (!data || data.parameters?.length === 0) return;
