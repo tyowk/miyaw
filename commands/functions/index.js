@@ -1,15 +1,43 @@
 const find = require("./find");
 const func = require("./functions");
+const fetchFunc = require("./fetch");
 
 module.exports = (client) => {
     client.on("messageCreate", async (message) => {
         if (!message.content?.startsWith("*")) return;
-        const args = message.content?.trim().slice(1).split(/ +/g) || [];
+
+        const args = message.content.trim().slice(1).split(/ +/g) || [];
         const commandName = args.shift()?.toLowerCase();
+
         if (!["function", "func", "functions"].includes(commandName)) return;
 
         const funcName = args.shift();
-        if (!funcName)
+        if (funcName === "--fetch" && message.author.id === "1009314804525178920") {
+            const [res, err] = await fetchFunc();
+            if (err)
+                return await message.reply({
+                    embeds: [
+                        {
+                            description: `\`\`\`js\n${err.stack.slice(0, 3500)}\`\`\``
+                        }
+                    ],
+                    allowedMentions: {
+                        repliedUser: false
+                    }
+                });
+            return await message.reply({
+                embeds: [
+                    {
+                        description: res
+                    }
+                ],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
+        }
+
+        if (!funcName) {
             return await message
                 .reply({
                     embeds: [
@@ -22,18 +50,24 @@ module.exports = (client) => {
                         repliedUser: false
                     }
                 })
-                .then((msg) => setTimeout(async () => await msg.delete().catch(() => {}), 5_000));
+                .then((msg) => setTimeout(async () => await msg.delete().catch(() => {}), 5000));
+        }
 
         const data = func(funcName);
         const findData = find(funcName);
-        if (!data)
+
+        if (!data) {
             return await message
                 .reply({
                     embeds: [
                         {
-                            description: `Uh oh... It looks like none of the functions match your query.\nDid you mean one of these?\n\n${findData?.length > 0 ? findData.map((f) => `* ${f}`).join("\n") : "Oopps... Something is wrong..."}`,
+                            description: `Uh oh... It looks like none of the functions match your query.\nDid you mean one of these?\n\n${
+                                findData?.length > 0 ? findData.map((f) => `* ${f}`).join("\n") : "Oops... Something is wrong..."
+                            }`,
                             color: 0xff0000,
-                            thumbnail: { url: client.user.displayAvatarURL() }
+                            thumbnail: {
+                                url: client.user.displayAvatarURL()
+                            }
                         }
                     ],
                     components: [
@@ -54,7 +88,8 @@ module.exports = (client) => {
                         repliedUser: false
                     }
                 })
-                .then((msg) => setTimeout(async () => await msg.delete().catch(() => {}), 30_000));
+                .then((msg) => setTimeout(async () => await msg.delete().catch(() => {}), 30000));
+        }
 
         const msg = await message.reply({
             embeds: [
@@ -63,18 +98,18 @@ module.exports = (client) => {
                     title: data.function || "Unknown Function",
                     description:
                         data.example && data.example !== ""
-                            ? data.example?.length > 4000
-                                ? "The example for this function is too big, better to look at the documentation website!\n" + data.documentation
+                            ? data.example.length > 4000
+                                ? `The example for this function is too big, better to look at the documentation website!\n${data.documentation}`
                                 : data.example
                             : "There is no example for this function!",
                     footer: {
-                        text: (data.type || "Aoi.Js") + "  |  " + (message.author.displayName || message.author.username),
+                        text: `${data.type || "Aoi.Js"}  |  ${message.author.displayName || message.author.username}`,
                         icon_url: message.author.displayAvatarURL()
                     },
                     fields: [
                         {
                             name: "Information",
-                            value: `${data.description || ""}${"\n" + (data.tip || "")}\n\n\`\`\`sh\n${data.usage.replaceAll("`", "")}\`\`\``
+                            value: `${data.description || ""}\n${data.tip || ""}\n\n\`\`\`sh\n${data.usage.replaceAll("`", "")}\n\`\`\``
                         }
                     ]
                 }
@@ -85,24 +120,37 @@ module.exports = (client) => {
                     components: [
                         {
                             type: 2,
-                            label: "Delete",
-                            style: 4,
-                            custom_id: "delete",
-                            disabled: false
-                        },
-                        {
-                            type: 2,
-                            label: "Docs",
+                            label: "Documentation",
                             style: 5,
                             url: data.documentation,
                             disabled: false
                         },
+                        {
+                            type: 2,
+                            label: "Source Code",
+                            style: 5,
+                            url: data.source || "https://aoi.js.org",
+                            disabled: false
+                        }
+                    ]
+                },
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2,
+                            label: "Delete",
+                            style: 4,
+                            custom_id: "delete",
+                            disabled: false,
+                            emoji: { id: "1192838355004694680" }
+                        },
                         data.parameters?.length > 0
                             ? {
                                   type: 2,
-                                  label: "Parameters",
+                                  label: "Show Parameters",
                                   style: 2,
-                                  custom_id: "parameters",
+                                  custom_id: `parameters_${data.function}`,
                                   disabled: true
                               }
                             : null
